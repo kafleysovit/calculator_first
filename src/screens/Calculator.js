@@ -2,21 +2,20 @@ import "./calculator.css";
 import { useState } from "react";
 function Calculator() {
   const [soluton, setsolution] = useState("");
+  const [checkdot, setdot] = useState(false);
+
   const handlenumber = (num) => {
-    setsolution(soluton + num);
+    // all condition goes inside here
+    if ((num === "." || num === "0.") && checkdot === false) {
+      setsolution(soluton + num);
+      setdot(true); // this need to be false if certain button are clicked
+    } else if (num === "") {
+      setsolution("");
+      setdot(false);
+    } else {
+      setsolution(soluton + num);
+    }
   };
-  //   const handlesign = (num, sign) => {
-  //     if (
-  //       num[num.length - 1] === "+" ||
-  //       num[num.length - 1] === "-" ||
-  //       num[num.length - 1] === "*" ||
-  //       num[num.length - 1] === "/"
-  //     ) {
-  //       setsolution(soluton(0, soluton.length - 2) + sign);
-  //     } else {
-  //       handlenumber(sign);
-  //     }
-  //   };
 
   return (
     <div className="calculator">
@@ -25,7 +24,7 @@ function Calculator() {
       </div>
       <div className="allbuttons">
         <div className="first">
-          <button className="button" onClick={() => setsolution("")}>
+          <button className="button" onClick={() => handlenumber("")}>
             AC
           </button>
           <button className="button">+/-</button>
@@ -75,7 +74,14 @@ function Calculator() {
           >
             0
           </button>
-          <button className="button" onClick={() => handlenumber("0.")}>
+          <button
+            className="button"
+            onClick={() =>
+              soluton.length === 0
+                ? handlenumber("0.")
+                : checkdot === false && handlenumber(".")
+            }
+          >
             .
           </button>
           <button className="button">=</button>
