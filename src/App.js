@@ -1,7 +1,9 @@
+import Calculator from "./screens/Calculator";
+import "./app.css";
 function App() {
   return (
     <div className="App">
-      <h1>Hello Calculator</h1>
+      <Calculator />
     </div>
   );
 }
