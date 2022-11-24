@@ -3,9 +3,8 @@ import { useState } from "react";
 function Calculator() {
   const [soluton, setsolution] = useState("");
   const [checkdot, setdot] = useState(false);
-
   const handlenumber = (num) => {
-    // all condition goes inside here
+    // most of condition goes here
     if ((num === "." || num === "0.") && checkdot === false) {
       setsolution(soluton + num);
       setdot(true); // this need to be false if certain button are clicked
@@ -15,6 +14,34 @@ function Calculator() {
     } else {
       setsolution(soluton + num);
     }
+  };
+  const handlemaths = (sign) => {
+    const lastone = soluton.slice(soluton.length - 1); // last of string
+    const remaining = soluton.slice(0, soluton.length - 1); // upto last of string
+    if (soluton.length === 0 || soluton === "0.") {
+      // preventing sign before #
+      setsolution(soluton);
+    } else {
+      if (
+        lastone === "+" ||
+        lastone === "-" ||
+        lastone === "/" ||
+        lastone === "*"
+      ) {
+        setsolution(remaining + sign);
+        setdot(false);
+      } else {
+        setsolution(soluton + sign);
+        setdot(false);
+      }
+    }
+  };
+  const result = () => {
+    const finalresult = Function("return " + soluton); // return ananomous function
+    setsolution(finalresult());
+  };
+  const removelast = () => {
+    setsolution(soluton.slice(0, -1));
   };
 
   return (
@@ -27,9 +54,13 @@ function Calculator() {
           <button className="button" onClick={() => handlenumber("")}>
             AC
           </button>
-          <button className="button">+/-</button>
+          <button className="button" onClick={removelast}>
+            C
+          </button>
           <button className="button">%</button>
-          <button className="button">/</button>
+          <button className="button" onClick={() => handlemaths("/")}>
+            /
+          </button>
         </div>
         <div className="first">
           <button className="button" onClick={() => handlenumber("7")}>
@@ -41,7 +72,9 @@ function Calculator() {
           <button className="button" onClick={() => handlenumber("9")}>
             9
           </button>
-          <button className="button">*</button>
+          <button className="button" onClick={() => handlemaths("*")}>
+            *
+          </button>
         </div>
         <div className="first">
           <button className="button" onClick={() => handlenumber("4")}>
@@ -53,7 +86,9 @@ function Calculator() {
           <button className="button" onClick={() => handlenumber("6")}>
             6
           </button>
-          <button className="button">-</button>
+          <button className="button" onClick={() => handlemaths("-")}>
+            -
+          </button>
         </div>
         <div className="first">
           <button className="button" onClick={() => handlenumber("1")}>
@@ -65,7 +100,9 @@ function Calculator() {
           <button className="button" onClick={() => handlenumber("3")}>
             3
           </button>
-          <button className="button">+</button>
+          <button className="button" onClick={() => handlemaths("+")}>
+            +
+          </button>
         </div>
         <div className="first">
           <button
@@ -84,7 +121,9 @@ function Calculator() {
           >
             .
           </button>
-          <button className="button">=</button>
+          <button className="button" onClick={result}>
+            =
+          </button>
         </div>
       </div>
     </div>
