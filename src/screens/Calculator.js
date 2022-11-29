@@ -19,8 +19,9 @@ function Calculator() {
     const lastone = soluton.slice(soluton.length - 1); // last of string
     const remaining = soluton.slice(0, soluton.length - 1); // upto last of string
     if (soluton.length === 0 || soluton === "0.") {
+      sign === "-" ? setsolution(sign) : setsolution(soluton);
+
       // preventing sign before #
-      setsolution(soluton);
     } else {
       if (
         lastone === "+" ||
@@ -28,20 +29,20 @@ function Calculator() {
         lastone === "/" ||
         lastone === "*"
       ) {
-        setsolution(remaining + sign);
+        setsolution(remaining + sign); // replace last one
         setdot(false);
       } else {
-        setsolution(soluton + sign);
+        setsolution(soluton + sign); //add to last one
         setdot(false);
       }
     }
   };
   const result = () => {
     const finalresult = Function("return " + soluton); // return ananomous function
-    setsolution(finalresult());
+    setsolution(finalresult().toString());
   };
   const removelast = () => {
-    setsolution(soluton.slice(0, -1));
+    setsolution(soluton.slice(0, -1)); //removing last one
   };
 
   return (
@@ -57,7 +58,9 @@ function Calculator() {
           <button className="button" onClick={removelast}>
             C
           </button>
-          <button className="button">%</button>
+          <button className="button" onClick={() => handlemaths("%")}>
+            %
+          </button>
           <button className="button" onClick={() => handlemaths("/")}>
             /
           </button>
